@@ -1,68 +1,164 @@
 // from data.js
-
+var tableData = data;
 // YOUR CODE HERE!
+var tbody = d3.select('tbody');
+// input fields
+var text = d3.select('#datetime');
+var cityText = d3.select('#City');
+var stateText = d3.select('#State');
+var countryText = d3.select('#Country');
+var shapeText = d3.select('#Shape');
+//submit buttons
+var submit = d3.select('#filter-btn-1');
+var submit2 = d3.select('#filter-btn-2');
+var submit3 = d3.select('#filter-btn-3');
+var submit4 = d3.select('#filter-btn-4');
+var submit5 = d3.select('#filter-btn-5');
+var submit_master = d3.select('#filter-btn-6');
+var submit_reset = d3.select('#reset-btn');
 
-var alienData = data;
+console.log(tableData)
 
-var tbody = d3.select("tbody");
+function loadTable (data) {
+    data.forEach((datapoint) => {
+        var row = tbody.append('tr');
+        Object.entries(datapoint).forEach(([key, value]) =>{
+            var cell = tbody.append('td');
+            cell.text(value);
+        })
+    })
+};
 
-var table = d3.select("table");
+loadTable(tableData);
 
-table.attr("class", "table table-striped");
 
-// Select Submit button with id = "filter-btn" changed to #submit
-var submit = d3.select("#submit");
-
-submit.on("click", function() {
-    
-    // Prevent page from refreshing - from ex 09
+submit_reset.on('click', function(){
+    d3.event.preventDefault();
+    loadTable(tableData)
+})
+submit.on('click', function(){
     d3.event.preventDefault();
 
-    // Select the input element and get the raw HTML node
-    var dateinputElement = d3.select("#datetime");
-    var cityinputElement = d3.select("#city");
-    var stateinputElement = d3.select("#state");
-    var countryinputElement = d3.select("#country");
-    var shapeinputElement = d3.select("#shape");
+    tbody.selectAll('td').remove()
+
+    var inputValue = text.property("value");
     
-    // Get the property of the input element
-    var dateinputValue = dateinputElement.property("value");
-    var cityinputValue = cityinputElement.property("value").toLowerCase();
-    var stateinputValue = stateinputElement.property("value").toLowerCase();
-    var countryinputValue = countryinputElement.property("value").toLowerCase();
-    var shapeinputValue = shapeinputElement.property("value").toLowerCase();
+    if (inputValue === "") {
+        var filterData = tableData
+    } else {
+        var filterData = tableData.filter( x => x.datetime === inputValue);
+    }
+    console.log(filterData);
+    loadTable(filterData);
+})
 
-    // Filter Data with ONE OR MORE options selected at a time as desired
-    // or none as Default for all data
-    var tableData = alienData;
+submit2.on('click', function(){
+    d3.event.preventDefault();
 
-    if (dateinputValue.length > 0) {
-    var tableData = tableData.filter(siting => siting.datetime === dateinputValue);
-    }
-    if (cityinputValue.length >0) {
-        var tableData = tableData.filter(siting => siting.city === cityinputValue);   
-    }
-    if (stateinputValue.length >0) {
-        var tableData = tableData.filter(siting => siting.state === stateinputValue);   
-    }
-    if (countryinputValue.length >0) {
-        var tableData = tableData.filter(siting => siting.country === countryinputValue);   
-    }
-    if (shapeinputValue.length >0) {
-        var tableData = tableData.filter(siting => siting.shape === shapeinputValue);   
-    }
+    tbody.selectAll('td').remove()
 
-    var filteredData = tableData
-    filteredData.forEach(x => {
-         var row = tbody.append("tr");
-
-        row.append("td").text(x.datetime);
-        row.append("td").text(x.city);
-        row.append("td").text(x.state);
-        row.append("td").text(x.country);
-        row.append("td").text(x.shape);
-        row.append("td").text(x.durationMinutes);
-        row.append("td").text(x.comments);
-    })
+    var inputValue = cityText.property("value");
     
-});
+    if (inputValue === "") {
+        var filterData = tableData
+    } else {
+        var filterData = tableData.filter( x => x.city === inputValue);
+    }
+    console.log(filterData);
+    loadTable(filterData);
+})
+
+submit3.on('click', function(){
+    d3.event.preventDefault();
+
+    tbody.selectAll('td').remove()
+
+    var inputValue = stateText.property("value");
+    
+    if (inputValue === "") {
+        var filterData = tableData
+    } else {
+        var filterData = tableData.filter( x => x.state === inputValue);
+    }
+    console.log(filterData);
+    loadTable(filterData);
+})
+
+submit4.on('click', function(){
+    d3.event.preventDefault();
+
+    tbody.selectAll('td').remove()
+
+    var inputValue = countryText.property("value");
+    
+    if (inputValue === "") {
+        var filterData = tableData
+    } else {
+        var filterData = tableData.filter( x => x.country === inputValue);
+    }
+    console.log(filterData);
+    loadTable(filterData);
+})
+
+submit5.on('click', function(){
+    d3.event.preventDefault();
+
+    tbody.selectAll('td').remove()
+
+    var inputValue = shapeText.property("value");
+    
+    if (inputValue === "") {
+        var filterData = tableData
+    } else {
+        var filterData = tableData.filter( x => x.shape === inputValue);
+    }
+    console.log(filterData);
+    loadTable(filterData);
+})
+
+submit_master.on('click', function(){
+    d3.event.preventDefault();
+
+    tbody.selectAll('td').remove()
+    var filterData = tableData
+    var inputValue = text.property("value");
+    var inputValue2 = cityText.property("value");
+    var inputValue3 = stateText.property("value");
+    var inputValue4 = countryText.property("value");
+    var inputValue5 = shapeText.property("value");
+    
+    if (inputValue.length == 0) {
+        console.log("no text input");
+        // var filterData = tableData.filter( x => x.city === inputValue2);
+        var filterData = filterData;
+    } else {
+        var filterData = filterData.filter( x => x.datetime === inputValue);
+        // var filterData = filterData.filter( x => x.city === inputValue2);
+    }
+    if (inputValue2.length == 0) {
+        console.log("no text input");
+        var filterData = filterData;
+    } else {
+        var filterData = filterData.filter( x => x.city === inputValue2);
+    }
+    if (inputValue3.length == 0) {
+        console.log("no text input");
+        var filterData = filterData;
+    } else {
+        var filterData = filterData.filter( x => x.state === inputValue3);
+    }
+    if (inputValue4.length == 0) {
+        console.log("no text input");
+        var filterData = filterData;
+    } else {
+        var filterData = filterData.filter( x => x.country === inputValue4);
+    }
+    if (inputValue5.length == 0) {
+        console.log("no text input");
+        var filterData = filterData;
+    } else {
+        var filterData = filterData.filter( x => x.shape === inputValue5);
+    }
+    console.log(filterData);
+    loadTable(filterData);
+})
